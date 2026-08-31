@@ -1,0 +1,11 @@
+location_id,name,latitude,longitude,area,exposure,historical_vulnerability
+KHI-001,Saddar,24.8607,67.0011,Central Business District,High,0.75
+KHI-002,Clifton,24.8123,67.0345,Coastal Residential,Medium,0.45
+KHI-003,DHA Phase 5,24.8056,67.0601,Coastal Commercial,High,0.52
+KHI-004,Gulshan-e-Iqbal,24.9218,67.0934,Residential,Medium,0.68
+KHI-005,North Nazimabad,24.9612,67.0456,Residential,Low,0.55
+KHI-006,Korangi,24.8654,67.1234,Industrial,High,0.82
+KHI-007,Malir,24.9438,67.2089,Suburban,Medium,0.61
+KHI-008,Lyari,24.8712,67.0234,Dense Residential,High,0.89
+KHI-009,Orangi Town,24.9534,66.9523,Informal Settlement,High,0.92
+KHI-010,Shah Faisal,24.9012,67.1456,Commercial,Medium,0.58
