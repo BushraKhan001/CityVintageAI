@@ -6,34 +6,30 @@ Dark-themed visualization components
 import streamlit as st
 import pandas as pd
 from typing import Dict, List
-from components.theme import COLORS, get_risk_color, get_priority_color
+from components.theme import COLORS, get_risk_color
 
 
 def render_priority_table(priority_results: List, title: str = "Priority Queue"):
-    """Render priority queue table with dark theme"""
+    """Render priority queue in a responsive dark-native layout"""
     if not priority_results:
         st.info("No priority data available.")
         return
 
-    st.markdown(f"""
-    <div style="font-size: 1.1rem; font-weight: 600; color: {COLORS['text_primary']};
-                margin-bottom: 1rem;">{title}</div>
-    """, unsafe_allow_html=True)
+    st.subheader(title)
+    header = st.columns([0.5, 2.1, 1.4, 0.8, 1.3, 3.2])
+    for column, label in zip(header, ["Rank", "Location", "Priority", "Score", "Top Risk", "Reason"]):
+        column.caption(label.upper())
 
-    rows = []
-    for i, pr in enumerate(priority_results, 1):
-        top_signal = max(pr.risk_signals, key=lambda x: x["score"]) if pr.risk_signals else None
-        rows.append({
-            "Rank": i,
-            "Location": pr.location_name,
-            "Priority": pr.priority_level,
-            "Score": f"{pr.priority_score:.1f}",
-            "Top Risk": top_signal["type"].capitalize() if top_signal else "N/A",
-            "Reason": pr.reasons[0] if pr.reasons else "N/A"
-        })
-
-    df = pd.DataFrame(rows)
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    for index, priority in enumerate(priority_results, 1):
+        top_signal = max(priority.risk_signals, key=lambda signal: signal["score"]) if priority.risk_signals else None
+        row = st.columns([0.5, 2.1, 1.4, 0.8, 1.3, 3.2])
+        row[0].markdown(f"**{index}**")
+        row[1].markdown(f"**{priority.location_name}**")
+        row[2].markdown(f"**{priority.priority_level}**")
+        row[3].markdown(f"**{priority.priority_score:.1f}**")
+        row[4].write(top_signal["type"].capitalize() if top_signal else "N/A")
+        row[5].write(priority.reasons[0] if priority.reasons else "N/A")
+        st.divider()
 
 
 def render_risk_comparison(risk_signals: List[Dict], title: str = "Risk Comparison"):

@@ -8,7 +8,7 @@ from typing import List, Dict
 from components.theme import (
     COLORS, risk_card_css, priority_badge_css, kpi_card_css,
     info_banner_css, provenance_banner_css, section_header_css,
-    metric_row_css, get_risk_color
+    get_risk_color
 )
 
 
@@ -18,8 +18,8 @@ def render_risk_status_card(title: str, score: float, level: str):
 
 
 def render_metric_row(label: str, value: str, subtitle: str = ""):
-    """Render a metric row with dark theme"""
-    st.markdown(metric_row_css(label, value, subtitle), unsafe_allow_html=True)
+    """Render a metric row with Streamlit's native metric widget"""
+    st.metric(label, value, delta=subtitle or None)
 
 
 def render_priority_badge(priority_level: str, priority_score: float):
@@ -66,7 +66,10 @@ def render_recommendation_list(recommendations: List[str], title: str = "Recomme
 
 def render_explanation_block(explanation: Dict):
     """Render detailed explanation block with dark theme"""
-    st.markdown(section_header_css("Why is this risk level assigned?"))
+    st.markdown(
+        section_header_css("Why is this risk level assigned?"),
+        unsafe_allow_html=True,
+    )
 
     overall_summary = explanation.get("overall_summary", "")
     if overall_summary:

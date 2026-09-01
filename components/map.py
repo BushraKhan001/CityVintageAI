@@ -12,9 +12,15 @@ from components.theme import COLORS, get_risk_color
 
 KARACHI_CENTER = [24.8850, 67.0100]
 
-# Dark map tile style
-DARK_TILES = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-DARK_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
+OPEN_STREET_MAP_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+OPEN_STREET_MAP_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+MAP_DARKENING_CSS = """
+<style>
+.leaflet-tile {
+    filter: brightness(0.42) contrast(1.15) saturate(0.75);
+}
+</style>
+"""
 
 
 def create_karachi_map(
@@ -33,7 +39,12 @@ def create_karachi_map(
         width="100%",
     )
 
-    folium.TileLayer(tiles=DARK_TILES, attr=DARK_ATTR, name="Dark").add_to(m)
+    folium.TileLayer(
+        tiles=OPEN_STREET_MAP_TILES,
+        attr=OPEN_STREET_MAP_ATTR,
+        name="Dark OpenStreetMap",
+    ).add_to(m)
+    m.get_root().html.add_child(folium.Element(MAP_DARKENING_CSS))
 
     if risk_data is None:
         risk_data = {}
